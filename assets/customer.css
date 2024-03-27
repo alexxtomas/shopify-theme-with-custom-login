@@ -121,6 +121,60 @@
   padding-top: 4rem;
 }
 
+.customer .tabbed {
+  overflow-x: hidden;
+  margin: 32px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.customer .tabbed [type='radio'] {
+  /* hiding the inputs */
+  display: none;
+}
+
+.customer .tabs {
+  display: flex;
+  align-items: stretch;
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+}
+.customer .tab > label {
+  display: block;
+  margin-bottom: -1px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  background: #eee;
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.customer .tab:hover label {
+  border-top-color: #333;
+  color: #333;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tabbed [type='radio']:nth-of-type(1):checked ~ .tabs .tab:nth-of-type(1) label,
+.tabbed [type='radio']:nth-of-type(2):checked ~ .tabs .tab:nth-of-type(2) label {
+  background: #fff;
+  border-bottom-color: #fff;
+  color: #333;
+}
+.tabbed [type='radio']:nth-of-type(1):checked ~ .tab-content:nth-of-type(1),
+.tabbed [type='radio']:nth-of-type(2):checked ~ .tab-content:nth-of-type(2) {
+  display: block !important;
+}
+/* .tabbed [type='radio']:nth-of-type(2):checked ~ .tab-content:nth-of-type(2) */
+
 @media screen and (min-width: 750px) {
   .customer th,
   .customer td:first-of-type {
