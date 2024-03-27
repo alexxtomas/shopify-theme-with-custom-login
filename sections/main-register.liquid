@@ -24,10 +24,10 @@
     <input type="radio" id="as_individual_tab" name="css-tabs">
     <ul class="tabs">
       <li class="tab">
-        <label for="as_profesional_tab">{{ 'customer.register.as_professional' | t }}</label>
+        <label id="register_tab" for="as_profesional_tab">{{ 'customer.register.as_professional' | t }}</label>
       </li>
       <li class="tab">
-        <label for="as_individual_tab">{{ 'customer.register.as_individual' | t }}</label>
+        <label id="register_tab" for="as_individual_tab">{{ 'customer.register.as_individual' | t }}</label>
       </li>
     </ul>
     <div class="tab-content">
@@ -54,7 +54,7 @@
           </ul>
         {%- endif -%}
         <div class="contact__fields">
-          <div class="field">
+          <div class="field field--with-error">
             <input
               class="field__input"
               autocomplete="name"
@@ -63,9 +63,29 @@
               name="contact[{{ 'templates.contact.form.name' | t }}]"
               value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
               placeholder="{{ 'templates.contact.form.name' | t }}"
+              aria-required="true"
+              {% if form.errors contains 'name' %}
+                aria-invalid="true"
+                aria-describedby="ContactForm-name-error"
+              {% endif %}
             >
-            <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+
+            <label class="field__label" for="ContactForm-name">
+              {{- 'templates.contact.form.name' | t }}
+              <span aria-hidden="true">*</span></label
+            >
+            {%- if form.errors contains 'name' -%}
+              <small class="contact__field-error" id="ContactForm-name-error">
+                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                <span class="form__message">
+                  {%- render 'icon-error' -%}
+                  {{- form.errors.translated_fields.name | capitalize }}
+                  {{ form.errors.messages.name -}}
+                </span>
+              </small>
+            {%- endif -%}
           </div>
+
           <div class="field field--with-error">
             <input
               autocomplete="email"
@@ -134,7 +154,8 @@
       {%- endform -%}
     </div>
     <div class="tab-content">
-      {%- form 'create_customer', novalidate: 'novalidate' -%}
+      {%- form -%}
+        <input type="hidden" name="utf8" value="✓">
         {%- if form.errors -%}
           <h2 class="form__message" tabindex="-1" autofocus>
             <svg aria-hidden="true" focusable="false">
@@ -243,13 +264,40 @@
             {{ form.errors.messages.password }}.
           </span>
         {%- endif -%}
-        <button>
+        <button type="submit">
           {{ 'customer.register.submit' | t }}
         </button>
       {%- endform -%}
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentUrl = new URL(window.location);
+    const searchParams = new URLSearchParams(currentUrl.search);
+
+    const tab = searchParams.get('tab');
+
+    if (tab) {
+      document.getElementById(tab).click();
+    }
+    document.querySelectorAll('input[type="radio"]').forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('id');
+
+        let currentUrl = new URL(window.location);
+        let searchParams = new URLSearchParams(currentUrl.search);
+
+        searchParams.set('tab', id);
+
+        currentUrl.search = searchParams.toString();
+
+        window.history.pushState({ path: currentUrl.toString() }, '', currentUrl.toString());
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
