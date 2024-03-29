@@ -807,3 +807,35 @@ li[data-address] > h2 {
 .addresses form > div:nth-of-type(7) + div[id] {
   margin-top: 1.5rem;
 }
+
+.customer .requirements-main-title {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.customer .requirements-title {
+  margin: 24px 0 8px 0;
+  font-size: calc(var(--font-heading-scale) * 1.8rem);
+  text-transform: uppercase;
+}
+
+.customer .requirements-content {
+  margin: 0;
+}
+
+.customer .custom-field {
+  margin: 0;
+}
+
+.customer .contact-fields-custom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.customer .form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

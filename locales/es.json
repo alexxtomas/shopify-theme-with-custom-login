@@ -255,8 +255,15 @@
     "contact": {
       "form": {
         "name": "Nombre",
+        "NIF_NIE": "NIF/NIE",
         "email": "Correo electrónico",
-        "phone": "Número de teléfono",
+        "profesional_activity": "Actividad profesional",
+        "phone": "Teléfono",
+        "fax": "Fax",
+        "address": "Dirección",
+        "population": "Población",
+        "postal_code": "Código postal",
+        "province": "Provincia",
         "comment": "Comentario",
         "send": "Enviar",
         "post_success": "Gracias por contactarnos. Te responderemos lo antes posible.",

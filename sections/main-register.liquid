@@ -20,7 +20,7 @@
     {{ 'customer.register.title' | t }}
   </h1>
   <div class="tabbed">
-    <input type="radio" id="as_profesional_tab" name="css-tabs" checked>
+    <input type="radio" id="as_profesional_tab" name="css-tabs">
     <input type="radio" id="as_individual_tab" name="css-tabs">
     <ul class="tabs">
       <li class="tab">
@@ -31,6 +31,18 @@
       </li>
     </ul>
     <div class="tab-content">
+      <h3 class="requirements-main-title">REQUISITOS</h3>
+      <p class="requirements-content">
+        Para comprobar la actividad de nuestros nuevos clientes solicitamos una fotocopia de su licencia fiscal e
+        Impuesto de Actividades Económicas (I.A.E.) o Declaración Censal o Parte de las escrituras donde se describe el
+        objeto social.
+      </p>
+      <h4 class="requirements-title">Requisitos para darse de alta como cliente:</h4>
+      <p class="requirements-content">
+        Rellenar los datos indicados en este documento. Enviar junto a este documento cumplimentado y firmado, copia de
+        Declaración Censal (Modelo 036 o 037) y de la Tarjeta de identificación fiscal (CIF) por mail a info@dismay.es.
+        En caso de ser persona física, enviar copia del DNI y copia de la Declaración Censal.
+      </p>
       {%- form 'contact', id: 'ContactForm' -%}
         {%- if form.posted_successfully? -%}
           <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
@@ -53,40 +65,71 @@
             </li>
           </ul>
         {%- endif -%}
-        <div class="contact__fields">
-          <div class="field field--with-error">
-            <input
-              class="field__input"
-              autocomplete="name"
-              type="text"
-              id="ContactForm-name"
-              name="contact[{{ 'templates.contact.form.name' | t }}]"
-              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-              placeholder="{{ 'templates.contact.form.name' | t }}"
-              aria-required="true"
-              {% if form.errors contains 'name' %}
-                aria-invalid="true"
-                aria-describedby="ContactForm-name-error"
-              {% endif %}
-            >
+        <div class="form-container">
+          <div class="contact__fields contact-fields-custom">
+            <div class="field field--with-error custom-field">
+              <input
+                class="field__input"
+                autocomplete="name"
+                type="text"
+                id="ContactForm-name"
+                name="contact[{{ 'templates.contact.form.name' | t }}]"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                placeholder="{{ 'templates.contact.form.name' | t }}"
+                aria-required="true"
+                {% if form.errors contains 'name' %}
+                  aria-invalid="true"
+                  aria-describedby="ContactForm-name-error"
+                {% endif %}
+              >
 
-            <label class="field__label" for="ContactForm-name">
-              {{- 'templates.contact.form.name' | t }}
-              <span aria-hidden="true">*</span></label
-            >
-            {%- if form.errors contains 'name' -%}
-              <small class="contact__field-error" id="ContactForm-name-error">
-                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-                <span class="form__message">
-                  {%- render 'icon-error' -%}
-                  {{- form.errors.translated_fields.name | capitalize }}
-                  {{ form.errors.messages.name -}}
-                </span>
-              </small>
-            {%- endif -%}
+              <label class="field__label" for="ContactForm-name">
+                {{- 'templates.contact.form.name' | t }}
+                <span aria-hidden="true">*</span></label
+              >
+              {%- if form.errors contains 'name' -%}
+                <small class="contact__field-error" id="ContactForm-name-error">
+                  <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                  <span class="form__message">
+                    {%- render 'icon-error' -%}
+                    {{- form.errors.translated_fields.name | capitalize }}
+                    {{ form.errors.messages.name -}}
+                  </span>
+                </small>
+              {%- endif -%}
+            </div>
+            <div class="field field--with-error custom-field">
+              <input
+                class="field__input"
+                type="text"
+                id="ContactForm-NIF_NIE"
+                name="contact[{{ 'templates.contact.form.NIF_NIE' | t }}]"
+                placeholder="{{ 'templates.contact.form.NIF_NIE' | t }}"
+                aria-required="true"
+                {% if form.errors contains 'name' %}
+                  aria-invalid="true"
+                  aria-describedby="ContactForm-NIF_NIE-error"
+                {% endif %}
+              >
+
+              <label class="field__label" for="ContactForm-NIF_NIE">
+                {{- 'templates.contact.form.NIF_NIE' | t }}
+                <span aria-hidden="true">*</span></label
+              >
+              {%- if form.errors contains 'NIF_NIE' -%}
+                <small class="contact__field-error" id="ContactForm-NIF_NIE-error">
+                  <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                  <span class="form__message">
+                    {%- render 'icon-error' -%}
+                    {{- form.errors.translated_fields.NIF_NIE | capitalize }}
+                    {{ form.errors.messages.NIF_NIE -}}
+                  </span>
+                </small>
+              {%- endif -%}
+            </div>
           </div>
 
-          <div class="field field--with-error">
+          <div class="field field--with-error custom-field">
             <input
               autocomplete="email"
               type="email"
@@ -118,33 +161,109 @@
               </small>
             {%- endif -%}
           </div>
-        </div>
-        <div class="field">
-          <input
-            type="tel"
-            id="ContactForm-phone"
-            class="field__input"
-            autocomplete="tel"
-            name="contact[{{ 'templates.contact.form.phone' | t }}]"
-            pattern="[0-9\-]*"
-            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-            placeholder="{{ 'templates.contact.form.phone' | t }}"
-          >
-          <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
-        </div>
-        <div class="field">
-          <textarea
-            rows="10"
-            id="ContactForm-body"
-            class="text-area field__input"
-            name="contact[{{ 'templates.contact.form.comment' | t }}]"
-            placeholder="{{ 'templates.contact.form.comment' | t }}"
-          >
-            {{- form.body -}}
-          </textarea>
-          <label class="form__label field__label" for="ContactForm-body">
-            {{- 'templates.contact.form.comment' | t -}}
-          </label>
+          <div class="field field--with-error custom-field">
+            <input
+              type="text"
+              id="ContactForm-profesional_activity"
+              class="field__input"
+              name="contact[profesional_activity]"
+              spellcheck="false"
+              autocapitalize="off"
+              aria-required="true"
+              {% if form.errors contains 'profesional_activity' %}
+                aria-invalid="true"
+                aria-describedby="ContactForm-profesional_activity-error"
+              {% endif %}
+              placeholder="{{ 'templates.contact.form.profesional_activity' | t }}"
+            >
+            <label class="field__label" for="ContactForm-profesional_activity">
+              {{- 'templates.contact.form.profesional_activity' | t }}
+              <span aria-hidden="true">*</span></label
+            >
+            {%- if form.errors contains 'profesional_activity' -%}
+              <small class="contact__field-error" id="ContactForm-profesional_activity-error">
+                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                <span class="form__message">
+                  {%- render 'icon-error' -%}
+                  {{- form.errors.translated_fields.profesional_activity | capitalize }}
+                  {{ form.errors.messages.profesional_activity -}}
+                </span>
+              </small>
+            {%- endif -%}
+          </div>
+          <div class="contact__fields contact-fields-custom">
+            <div class="field custom-field">
+              <input
+                type="tel"
+                id="ContactForm-phone"
+                class="field__input"
+                autocomplete="tel"
+                name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                pattern="[0-9\-]*"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                placeholder="{{ 'templates.contact.form.phone' | t }}"
+              >
+              <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
+            </div>
+            <div class="field custom-field">
+              <input
+                type="text"
+                id="ContactForm-fax"
+                class="field__input"
+                name="contact[{{ 'templates.contact.form.fax' | t }}]"
+                placeholder="{{ 'templates.contact.form.fax' | t }}"
+              >
+              <label class="field__label" for="ContactForm-fax">{{ 'templates.contact.form.fax' | t }}</label>
+            </div>
+          </div>
+          <div class="field custom-field">
+            <input
+              type="text"
+              id="ContactForm-address"
+              class="field__input"
+              name="contact[{{ 'templates.contact.form.address' | t }}]"
+              placeholder="{{ 'templates.contact.form.address' | t }}"
+            >
+            <label class="field__label" for="ContactForm-address">{{ 'templates.contact.form.address' | t }}</label>
+          </div>
+          <div class="contact__fields contact-fields-custom">
+            <div class="field custom-field">
+              <input
+                type="text"
+                id="ContactForm-population"
+                class="field__input"
+                name="contact[{{ 'templates.contact.form.population' | t }}]"
+                placeholder="{{ 'templates.contact.form.population' | t }}"
+              >
+              <label class="field__label" for="ContactForm-population">
+                {{- 'templates.contact.form.population' | t -}}
+              </label>
+            </div>
+            <div class="field custom-field">
+              <input
+                type="text"
+                id="ContactForm-postal_code"
+                class="field__input"
+                name="contact[{{ 'templates.contact.form.postal_code' | t }}]"
+                placeholder="{{ 'templates.contact.form.postal_code' | t }}"
+              >
+              <label class="field__label" for="ContactForm-postal_code">
+                {{- 'templates.contact.form.postal_code' | t -}}
+              </label>
+            </div>
+          </div>
+          <div class="field custom-field">
+            <input
+              type="text"
+              id="ContactForm-province"
+              class="field__input"
+              name="contact[{{ 'templates.contact.form.province' | t }}]"
+              placeholder="{{ 'templates.contact.form.province' | t }}"
+            >
+            <label class="field__label" for="ContactForm-province">
+              {{- 'templates.contact.form.province' | t -}}
+            </label>
+          </div>
         </div>
         <div class="contact__button">
           <button type="submit" class="button">
@@ -154,8 +273,7 @@
       {%- endform -%}
     </div>
     <div class="tab-content">
-      {%- form -%}
-        <input type="hidden" name="utf8" value="✓">
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
         {%- if form.errors -%}
           <h2 class="form__message" tabindex="-1" autofocus>
             <svg aria-hidden="true" focusable="false">
@@ -272,32 +390,7 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const currentUrl = new URL(window.location);
-    const searchParams = new URLSearchParams(currentUrl.search);
-
-    const tab = searchParams.get('tab');
-
-    if (tab) {
-      document.getElementById(tab).click();
-    }
-    document.querySelectorAll('input[type="radio"]').forEach((tab) => {
-      tab.addEventListener('click', (e) => {
-        const id = e.target.getAttribute('id');
-
-        let currentUrl = new URL(window.location);
-        let searchParams = new URLSearchParams(currentUrl.search);
-
-        searchParams.set('tab', id);
-
-        currentUrl.search = searchParams.toString();
-
-        window.history.pushState({ path: currentUrl.toString() }, '', currentUrl.toString());
-      });
-    });
-  });
-</script>
+<script src="{{ 'register-form.js' | asset_url }}" async></script>
 
 {% schema %}
 {
